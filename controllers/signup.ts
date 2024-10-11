@@ -1,11 +1,16 @@
+
+// signup.ts
+
 import { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'; // Import Prisma Client
 import { plans, pricing } from '../config/product_details';
+import CustomersService from '../service/CustomersService';
+import OrdersService from '../service/OrdersService';
 
 const prisma = new PrismaClient();
+const customersService = new CustomersService();
+const ordersService = new OrdersService();
 
-
-// signup.ts
 
 const router = Router();
 
@@ -21,13 +26,8 @@ router.post('/', async (req: Request, res: Response) => {
 
     const plan = req.session.planName;
 
-    console.log("Session data on signup, ", req.session);
-  
-  
-
-    // Validate plan
     if (!plan || !plans.includes(plan as string)) {
-        return res.redirect('/'); // Redirect if plan is invalid
+        return res.redirect('/'); 
     }
 
     req.session.email = email;
@@ -37,34 +37,14 @@ router.post('/', async (req: Request, res: Response) => {
     console.log('Form data:', { name, email, channelName, videoLink });
 
     try {
-        // Check if customer exists
-        let customer = await prisma.customers.findUnique({
-            where: {
-                email: email,
-            },
-        });
+        // Check if customer exists, if it does it will use existing customer
 
-        // If customer does not exist, create a new customer
-        if (!customer) {
-            customer = await prisma.customers.create({
-                data: {
-                    email: email,
-                    name: name,
-                },
-            });
-        }
+        let createdCustomer = await customersService.createCustomer(name, email);
 
-        // Create an order
-        const order = await prisma.orders.create({
-            data: {
-                youtubeUrl: videoLink,
-                channelName,
-                customerEmail: customer.email,
-            },
-        });
+        const createdOrder = await ordersService.createOrder(videoLink, channelName, createdCustomer.customer.email);
 
-        // Redirect to payment page
         return res.redirect(`/verification`);
+        
     } catch (error) {
         console.error(error);
         return res.status(500).send({ error: error.message });

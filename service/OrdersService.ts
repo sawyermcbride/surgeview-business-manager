@@ -12,7 +12,7 @@ class OrdersService {
    * @throws Error('InvalidParameters') for missing parameters
    */
   public async createOrder(youtubeUrl: string, channelName: string, customerEmail: string) {
-    if(!youtubeUrl || !channelName || customerEmail) {
+    if(!youtubeUrl || !channelName || !customerEmail) {
       throw new Error('InvalidParameters')
     }
     const order = await prisma.orders.create({
@@ -27,3 +27,5 @@ class OrdersService {
 
   }
 }
+
+export default OrdersService;
