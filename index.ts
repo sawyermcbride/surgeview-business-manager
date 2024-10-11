@@ -5,6 +5,8 @@ import signupRoute from './controllers/signup';
 import paymentRoute from './controllers/payment';
 import verificationRoute from './controllers/verification';
 
+import { swaggerUi, swaggerDocs } from './swagger'; 
+
 import {pricing, plans} from './config/product_details';
 
 import dotenv from 'dotenv';
@@ -31,6 +33,8 @@ if(process.env.SESSION_KEY) {
 } else {
   console.error('Session key missing');
 }
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -104,10 +108,8 @@ app.get('/signup-details', async (req: Request, res: Response) => {
   return res.render('signup-details', {plan});
 
 })
-const validPages = ['create-login', 'verification', 'manager-login', 'payment', 'pricing', 'index', 'signup-details', 
-''
-]
-// GET route for dynamically rendering pages
+const validPages = ['create-login', 'verification', 'manager-login', 'payment', 'pricing', 'index', 'signup-details'];
+
 app.get('/:page', (req: Request, res: Response) => {
   const { page } = req.params; // Access route parameters
 
