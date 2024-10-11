@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SurgeView Marketing Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            background: #343a40;
+            padding: 20px;
+            color: white;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>SurgeView Marketing</h2>
+        <ul class="list-unstyled">
+            <li><a href="#" class="text-white">Dashboard</a></li>
+            <li><a href="#" class="text-white">Settings</a></li>
+            <li><a href="#" class="text-white">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1 class="my-4">Dashboard</h1>
+        <form action="/search-customer" method="GET" class="mb-4">
+          <div class="input-group">
+              <input type="text" class="form-control" name="email" placeholder="Enter Customer Email" required>
+              <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+          </div>
+        </form>
+      
+        <% if (customer) { %>
+            <h2>Customer Details</h2>
+            <p><strong>Email:</strong> <%= customer.email %></p>
+            <p><strong>Name:</strong> <%= customer.name %></p>
+            <p><strong>Name:</strong> <%= customer.name %></p>
+            <h3>Orders</h3>
+            <ul>
+                <% orders.forEach(order => { %>
+                    <li>Order ID: <%= order.id %>, Amount: <%= order.amount %>, Status: <%= order.status %></li>
+                <% }) %>
+            </ul>
+        <% } else if (error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

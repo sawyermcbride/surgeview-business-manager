@@ -1,0 +1,75 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="/public/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="bg-dark text-white py-5 text-center">
+      <div class="container">
+        <h2 class="display-4">100% Guaranteed Views for Your Video</h2>
+        <p class="lead">You will receive a number of viewers corresponding with each plan or be refunded</p>
+      </div>
+    </section>    
+    <%- include('partials/pricing_section') %>
+    <section class="py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+        <div class="row">
+          <!-- Question 1 -->
+          <div class="col-md-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">What is your refund policy?</h5>
+                <p class="card-text">We offer a 30-day money-back guarantee. If you're not satisfied with our service, you can request a full refund within 30 days of your purchase.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Question 2 -->
+          <div class="col-md-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">How do I cancel my subscription?</h5>
+                <p class="card-text">You can cancel your subscription anytime by logging into your account and going to the subscription management section. If you need help, contact our support team.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Question 3 -->
+          <div class="col-md-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Can I change my plan later?</h5>
+                <p class="card-text">Yes, you can upgrade or downgrade your plan at any time. Simply visit the subscription settings in your account to make changes.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Question 4 -->
+          <div class="col-md-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Is there a trial period?</h5>
+                <p class="card-text">Yes, we offer a 7-day free trial for new users to test our services. You can cancel anytime before the trial ends without being charged.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    
+    <%- include('partials/footer') %>
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
