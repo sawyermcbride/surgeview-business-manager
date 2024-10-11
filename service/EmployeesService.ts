@@ -13,17 +13,13 @@ const prisma = new PrismaClient();
      * @throws Error('NoUser) - if user is not found
      */
     public async login(username: string, password: string) {
-      
-
-      console.log('findUnique function ', prisma.employees.findUnique);
-
+    
       const user = await prisma.employees.findUnique({
         where: {
           username
         }
       });
       
-      console.log(user);
       if(!user) {
         throw new Error('NoUser');
       }

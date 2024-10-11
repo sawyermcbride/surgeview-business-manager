@@ -1,9 +1,13 @@
-import { Router, Request, Response } from 'express';
+import e, { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { plans } from '../config/product_details';
+import VerificationService from '../service/VerificationService';
+
 const router = Router();
 
 const prisma = new PrismaClient();
+const verificationService = new VerificationService();
+
 
 router.get('/', async (req: Request, res: Response) => {
   const {planName, email} = req.session;
@@ -12,17 +16,18 @@ router.get('/', async (req: Request, res: Response) => {
   if(!email || !planName || !plans.includes(planName)) {
     return res.redirect('/');
   }
-  const code = Math.floor(100000 + Math.random() * 900000);
+  try {
+    
+    const verification = verificationService.generateCode(email);
+    return res.render('verification.ejs', {email, isInvalid: false, isValid: false});
 
-  const newVerification = await prisma.verifications.create({
-    data: {
-      customerEmail: email,
-      code
-    }
-  });
+  } catch(err) {
+
+    return res.render('verification.ejs', {email, isInvalid: false, isValid: false});
+  
+  }
   
 
-  return res.render('verification.ejs', {email, isInvalid: false, isValid: false});
 
   
 });
@@ -30,28 +35,23 @@ router.get('/', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
   const email = req.session.email;
   const code = req.body.verificationcode
-  console.log('Verification submitted');
-  console.log('code ', code);
 
   if(!email || !code) {
     return res.redirect('/');
   }
-  const verification = await prisma.verifications.findFirst({
-    where: {
-      customerEmail: email
-    },
-    orderBy: {
-      createdAt: 'desc'
+
+  try {
+    
+    const verification = await verificationService.getCode(email); 
+    
+    if(verification && parseInt(code) === verification.code) {
+      
+      return res.render('verification', {email, isInvalid: false, isValid: true});
+    } else {
+      return res.render('verification', {email, isInvalid: true, isValid: false})
     }
-  });
 
-  console.log('code from db ', verification.code);
-
-  if(parseInt(code) === verification.code) {
-    
-    return res.render('verification', {email, isInvalid: false, isValid: true});
-    
-  } else {
+  } catch(err) {
     return res.render('verification', {email, isInvalid: true, isValid: false})
   }
 

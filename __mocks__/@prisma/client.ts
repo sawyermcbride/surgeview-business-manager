@@ -25,4 +25,10 @@ export class PrismaClient {
     create,
     findMany
   }
+  public verifications = {
+    findUnique,
+    findFirst,
+    create,
+    findMany
+  }
 }

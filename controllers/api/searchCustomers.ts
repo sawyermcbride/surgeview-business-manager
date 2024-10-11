@@ -22,6 +22,9 @@ const searchCustomers = async function(req: Request, res: Response) {
 
       return res.status(200).json({message: 'No customer found', customers: []});
     }
+
+    return res.status(500).json({message: 'Error searching for customer'});
       
   }
 }
+export default searchCustomers;

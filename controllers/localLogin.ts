@@ -42,9 +42,9 @@ export const userFromId = async function(id, done) {
 
 export const hasRole = function(roles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
+    console.log('Checking user role = ', req.session);
 
     if(req.isAuthenticated() ) {
-      console.log('Checking user role = ', req.user);
       if(roles.includes(req.user.role)) {
         return next();
       } else {

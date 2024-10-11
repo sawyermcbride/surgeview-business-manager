@@ -14,7 +14,7 @@ const getCustomer = async function(req: Request, res: Response) {
   }
 
   try {
-    const data = customersService.getCustomerData(parseInt(customerId));
+    const data = await customersService.getCustomerData(parseInt(customerId));
 
     return res.json(data);
   } catch(err) {
