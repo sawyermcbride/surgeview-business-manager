@@ -22,7 +22,7 @@ describe('Orders service tests', () => {
   })
 
   test('Returns new order when created', async () => {
-    console.log(ordersService);
+    
     prismaMock.orders.create.mockResolvedValueOnce(mockOrder);
 
     const result = await ordersService.createOrder('https://www.youtube.com/watch?v=w8FO9cMKyOU', 
@@ -35,5 +35,27 @@ describe('Orders service tests', () => {
       channelName: 'SurgeView Marketing',
       customerEmail: 'user@example.com'
     }});
+  })
+
+  test('getOrders throws error for invalid date format', async() => {
+    prismaMock.orders.findMany.mockResolvedValueOnce([mockOrder, mockOrder]);
+       
+    await expect(ordersService.getOrders(new Date('560000'), new Date('050505'))).rejects.toThrow('InvalidDate');
+
+  })
+
+  test('getOrders returns orders without date parameters', async() => {
+    prismaMock.orders.findMany.mockResolvedValueOnce([mockOrder, mockOrder]);
+       
+    const result = await ordersService.getOrders();
+
+    expect(result).toEqual([mockOrder, mockOrder]);
+
+    expect(prismaMock.orders.findMany).toHaveBeenNthCalledWith(1, {
+      where: {},
+      orderBy: {createdAt: 'desc'},
+      take: 100
+    })
+
   })
 })

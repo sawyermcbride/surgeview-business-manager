@@ -3,6 +3,8 @@ import viewSettings from '../config/viewSettings';
 import { PrismaClient } from '@prisma/client';
 import getCustomer from './api/getCustomer';
 import searchCustomers from './api/searchCustomers';
+import getOrders from './api/getOrders';
+
 
 const router: Router = express.Router();
 const prisma = new PrismaClient();
@@ -24,12 +26,18 @@ router.get('/get-view-settings', (req: Request, res: Response) => {
  * Returns customer by search of email or username
  */
 
-router.post('/customers/search/:text', searchCustomers);
+router.post('/customers/search/:text', searchCustomers as any);
 
 /**
  * Get orders and customer data of a given customer id 
  */
 
-router.get('/customers/:id', getCustomer);
+router.get('/customers/:id', getCustomer as any);
+
+/**
+ * gets recent orders or orders within specfied date range
+ */
+
+router.get('/orders', getOrders as any);
 
 export default router;

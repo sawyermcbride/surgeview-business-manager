@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "customers" ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "employees" ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "orders" ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "verifications" ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMPTZ;

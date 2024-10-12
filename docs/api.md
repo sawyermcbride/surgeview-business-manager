@@ -353,8 +353,81 @@ This endpoint retrieves customer data based on the provided customer ID.
 ```
 
 
+## GET /api/orders
+
+#### Description
+
+Retrieve a list of orders, optionally filtered by a date range. If a date range is not provided, the most recent 100 orders are returned.
+
+### Query Parameters
+
+| Parameter | Type   | Required | Description                                           |
+|-----------|--------|----------|-------------------------------------------------------|
+| `start`   | string | No       | The start date for filtering orders in the format `YYYY-MM-DD`. Defaults to `T00:00:00Z` if not specified. |
+| `end`     | string | No       | The end date for filtering orders in the format `YYYY-MM-DD`. Defaults to `T00:00:00Z` if not specified. |
 
 
+#### Example with query parameters 
 
+```http 
+  /api/orders?start=2024-10-10&end=2024-10-12
+```
+
+
+### Responses
+
+#### 200 OK
+
+**Description:** Successfully retrieved orders.
+
+**Body:**
+```json
+[
+  {
+    "id": 1,
+    "youtubeUrl": "https://youtube.com/example",
+    "channelName": "Example Channel",
+    "customerEmail": "customer@example.com",
+    "createdAt": "2024-10-09T08:58:22.272Z"
+  },
+]
+```
+
+#### 400 Bad Request
+
+**Description:** Invalid date provided.
+
+
+```json
+  {
+    "message": "Invalid date provided"
+  }
+```
+
+#### 500 Internal Server Error
+
+**Description**: An error occurred while processing the request.
+
+```json
+{
+  "message": "Other error"
+}
+```
+
+#### Example Requests:
+
+```http
+GET /api/orders
+```
+
+```http
+GET GET /api/orders?start=2024-10-01&end=2024-10-09
+```
+
+#### Implementation Notes 
+  - The service accepts start and end query parameters as optional.
+  - Dates are parsed to Date objects assuming UTC timezone.
+  - If both dates are provided, the service will retrieve orders within that range; if not, the recent 100 orders will be returned.
+  - Error handling is in place for invalid date formats and unexpected server errors.
 
 
