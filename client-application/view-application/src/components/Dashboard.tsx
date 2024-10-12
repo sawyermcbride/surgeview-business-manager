@@ -33,15 +33,13 @@ const Dashboard: React.FC = function() {
 
   const handleMenuClick = function(e: {key: string}) {
     AppContext.updateState({page: parseInt(e.key)});
-
-    alert(e.key);
   }
 
   return (
     <Layout style={{height: '100%'}}>
       <Header style={{ background: '#bdc3c7', display: 'flex', alignItems: 'center', padding: '0 20px' }}>
-        <img src={logo} style={{ height: '45px', marginRight: '60px', marginLeft: '25px' }} />
-        <Title level={2} style={{ margin: 0}}> {/*add marginLeft, flex: 1, textAlign: 'center to move towards center*/ }
+        <img src={logo} data-testid='main-logo' style={{ height: '45px', marginRight: '60px', marginLeft: '25px' }} />
+        <Title level={2} style={{color: '#ecf0f1', margin: 0}}> {/*add marginLeft, flex: 1, textAlign: 'center to move towards center*/ }
           Business Tools
         </Title>
       </Header>

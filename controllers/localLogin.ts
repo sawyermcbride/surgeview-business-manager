@@ -7,8 +7,7 @@ const prisma = new PrismaClient();
 const employeesService = new EmployeesService();
 
 export const localLogin = async function(username: string, password: string, done: Function) {
-
-  
+    
   try {
     const user = await employeesService.login(username, password);  
     console.log('User', user)
@@ -29,9 +28,7 @@ export const userFromId = async function(id, done) {
   try {
     
     const user = await employeesService.getUserById(id);
-    
-    console.log('Getting user from id = ', user);
-    
+   
     done(null, user);
 
   } catch(err) {
@@ -42,7 +39,9 @@ export const userFromId = async function(id, done) {
 
 export const hasRole = function(roles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
+    console.log('Route= ', req.url);
     console.log('Checking user role = ', req.session);
+    console.log('isAuthenticated = ', req.isAuthenticated());
 
     if(req.isAuthenticated() ) {
       if(roles.includes(req.user.role)) {
@@ -52,6 +51,7 @@ export const hasRole = function(roles: string[]) {
         return;
       }
     } else {
+      // return res.status(401);
       return res.redirect('/manager-login');
     }
   }

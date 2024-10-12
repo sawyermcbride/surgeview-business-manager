@@ -8,8 +8,8 @@ const {Title} = Typography;
 
 const clicks: {[key: string]: number} = {
   'Search_Customers': 1,
-  'View_Orders': 2,
-  'Search_Employees': 3,
+  'View_Orders': 3,
+  'Search_Employees': 4,
 }
 const ButtonsView: React.FC =  function() {
   const AppContext = useAppContext();
@@ -61,7 +61,7 @@ const ButtonsView: React.FC =  function() {
         >
           Edit Web Content
         </Button>
-             </div>
+        </div>
     </div>
   )
 }

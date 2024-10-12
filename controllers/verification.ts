@@ -18,7 +18,7 @@ router.get('/', async (req: Request, res: Response) => {
   }
   try {
     
-    const verification = verificationService.generateCode(email);
+    const verification = await verificationService.generateCode(email);
     return res.render('verification.ejs', {email, isInvalid: false, isValid: false});
 
   } catch(err) {

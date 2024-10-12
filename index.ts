@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import signupRoute from './controllers/signup';
 import paymentRoute from './controllers/payment';
 import verificationRoute from './controllers/verification';
+import cors from 'cors';
 
 import { swaggerUi, swaggerDocs } from './swagger'; 
 
@@ -19,6 +20,7 @@ import { localLogin, userFromId, hasRole } from './controllers/localLogin';
 import { createLogin } from './controllers/createLogin';
 import businessManager from './controllers/businessManager';
 import apiRoutes from './controllers/apiRoutes';
+import morgan from 'morgan';
 
 const LocalStrategy = passportLocal.Strategy
 
@@ -29,12 +31,26 @@ const PORT = process.env.PORT || 3000;
 
 
 if(process.env.SESSION_KEY) {
-  app.use(session({ secret: process.env.SESSION_KEY, resave: false, saveUninitialized: false }));
+  app.use(session({ secret: process.env.SESSION_KEY, resave: false, saveUninitialized: false,
+    cookie: {maxAge: 1000 * 60 * 60 * 24}
+   }));
 } else {
   console.error('Session key missing');
 }
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// Configure CORS
+const corsOptions = {
+  origin: 'http://localhost:5173', // Allow requests from this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific methods
+  credentials: true, // Allow cookies to be sent with requests
+};
+
+app.use(morgan('dev'));
+
+
+// Use the CORS middleware
+app.use(cors(corsOptions));
+
 
 // Initialize Passport
 app.use(passport.initialize());

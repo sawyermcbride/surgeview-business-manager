@@ -7,6 +7,7 @@ import searchCustomers from './api/searchCustomers';
 const router: Router = express.Router();
 const prisma = new PrismaClient();
 
+
 // Example route
 router.get('/get-view-settings', (req: Request, res: Response) => {
   const {role} = req.user;

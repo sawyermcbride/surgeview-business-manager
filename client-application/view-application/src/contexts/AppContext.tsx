@@ -3,8 +3,10 @@
 import React, {createContext, useState, useContext} from "react";
 
 interface AppState {
-  page: number,
-  actionSelected: number
+  page: number;
+  actionSelected: number;
+  selectedCustomer: number | null;
+  loading: boolean;
 }
 
 interface AppContextProps {
@@ -19,6 +21,8 @@ interface AppContextComponent {
 const initialState: AppState = {
   page: 1,
   actionSelected: 0, //means none
+  selectedCustomer: null,
+  loading: false
 };
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
