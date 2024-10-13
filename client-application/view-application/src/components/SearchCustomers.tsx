@@ -21,11 +21,9 @@ const SearchCustomers: React.FC = function() {
 
   useEffect(() => {
     setShowError(true);    
-    console.log('SearchCustomers error value, ', error);
     if(error && error === 'Authorization_Error') {
       setShowLogin(true);
       setShowError(false);
-      console.log('Authorization Error');
       updateState({requiresLogin: true});
     }
 
@@ -34,9 +32,8 @@ const SearchCustomers: React.FC = function() {
   useEffect( () => {
     
     updateState({loading: loading});
-    console.log('New loadings state ', loading);
-
-  }, [loading])
+    
+  }, [loading, updateState])
 
   useEffect(() => {
     setShowError(state.requiresLogin);

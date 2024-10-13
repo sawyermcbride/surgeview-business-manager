@@ -1,9 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { OrdersObject } from "../types/apiResponses";
+
 import {Form, Input, Button, Typography} from "antd";
 import { useAppContext } from "../contexts/AppContext";
+import useFetchUpdateOrders from "../hooks/useFetchUpdateOrders";
 
 const {Title, Text} = Typography;
+
+interface EditOrderForm {
+  youtubeUrl: string;
+  channelName: string;
+}
 
 const formItemLayout = {
   labelCol: {
@@ -18,7 +24,8 @@ const formItemLayout = {
 
 const OrderDetails: React.FC = function() {
   const {state, updateState} = useAppContext();
-    
+  const {loading, error, updateOrder, response} = useFetchUpdateOrders();
+  
   const [form] = Form.useForm();
 
   const handleHomeClick = function() {
@@ -27,7 +34,7 @@ const OrderDetails: React.FC = function() {
 
   const currentOrder = useMemo(() => {
     if(state.actionSelected === 4) {  
-  
+
       const order = state.orders.find((obj) => {
         return obj.id === state.selectedOrder;
       });
@@ -45,18 +52,32 @@ const OrderDetails: React.FC = function() {
 
   },[state.actionSelected, state.orders, state.selectedOrder]);
     
-
+  useEffect(() => {
+    if(error && error === 'Authorization_Error') {
+      updateState({requiresLogin: true});
+    }
+  }, [error])
 
   useEffect(() => {
-    
+
     if(currentOrder) {
       form.setFieldsValue(currentOrder);
     }
 
   }, [currentOrder, form])
 
-  const onFinish = function(values) {
+  const onFinish = function(values: EditOrderForm) {
+    const updateYoutubeUrl = (values.youtubeUrl === currentOrder?.youtubeUrl ? '': values.youtubeUrl);
+    const updateChannelName = (values.channelName === currentOrder?.channelName ? '': values.channelName);
+    
+    if(currentOrder) {
+      updateOrder(currentOrder?.id, updateYoutubeUrl, updateChannelName);
+    }
 
+    form.setFieldsValue({youtubeUrl: (updateYoutubeUrl || currentOrder?.youtubeUrl),
+      channelName: (updateChannelName || currentOrder?.youtubeUrl)
+    });
+    
   }
 
   return (
@@ -71,7 +92,12 @@ const OrderDetails: React.FC = function() {
 
           <Title level={3}> View Order Details </Title>
           <Text> Orders will not be edited unless you click submit.</Text>
-
+          <div>
+            <Text> {response && response.message}</Text>
+          </div>
+          <div>
+            <Text> {loading && "Loading..."}</Text>
+          </div>
         </div>
       </div>
       <div style={{width: '100%', marginTop: '25px'}}>

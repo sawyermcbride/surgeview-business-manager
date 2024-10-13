@@ -24,11 +24,11 @@ const ViewOrders: React.FC = function() {
     updateState({actionSelected: 0});
   }
   
-  useEffect(() => {
-    if(error === 'Authorization_Error') {
-      updateState({requiresLogin: true});
-    }
-  }, [error])
+    useEffect(() => {
+      if(error === 'Authorization_Error') {
+        updateState({requiresLogin: true});
+      }
+    }, [error, updateState])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
@@ -36,7 +36,6 @@ const ViewOrders: React.FC = function() {
     const isValid = regex.test(value) || value === '';
     const errorMsg = isValid ? '' : 'Invalid date format. Please use YYYY-MM-DD.';
 
-    console.log('Change, ', name);
     if (name === 'startDate') {
       setStartError(errorMsg);
       setStartDate(value);
@@ -58,6 +57,10 @@ const ViewOrders: React.FC = function() {
       fetchOrders();
     }
   }
+
+  useEffect(() => {
+    updateState({orders});
+  }, [orders, updateState])
 
   const viewOrderDetails = function(id: number) {
     updateState({actionSelected: 4, selectedOrder: id});

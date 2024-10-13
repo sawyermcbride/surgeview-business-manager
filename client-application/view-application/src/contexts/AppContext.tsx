@@ -1,7 +1,7 @@
 // App Context
 
 import React, {createContext, useState, useContext} from "react";
-import { OrdersObject } from "../types/apiResponses";
+import { OrdersObject, RoleSettings } from "../types/apiResponses";
 
 interface AppState {
   page: number;
@@ -12,6 +12,7 @@ interface AppState {
   loading: boolean;
   requiresLogin: boolean;
   lastActionSelected: number;
+  permissions: RoleSettings | null;
 }
 
 interface AppContextProps {
@@ -31,7 +32,8 @@ const initialState: AppState = {
   selectedOrder: null,
   loading: false,
   lastActionSelected: 0,
-  requiresLogin: false
+  requiresLogin: false,
+  permissions: null
 };
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);

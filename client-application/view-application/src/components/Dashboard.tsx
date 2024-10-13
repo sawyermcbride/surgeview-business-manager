@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HomeOutlined, ProfileOutlined} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd';
 import logo from '../assets/surge_view_new_cropped_transparent.png';
 import { useAppContext } from "../contexts/AppContext";
 import MainContent from "./MainContent";
+import useFetchRolePermissions from "../hooks/useFetchRolePermission";
+
 
 const { Header, Content, Sider } = Layout;
 const {Title} = Typography;
@@ -28,7 +30,21 @@ const sideMenuItems: MenuProps['items'] = [
 
 const Dashboard: React.FC = function() {
   const AppContext = useAppContext();
+  const {data, error} = useFetchRolePermissions();
+
   const {state} = AppContext;
+
+  useEffect(() => {
+    if(error === 'Authorization_Error') {
+      AppContext.updateState({requiresLogin: true})
+    }
+  }, [error, AppContext]);
+
+  useEffect(() => {
+    if(data) {
+      AppContext.updateState({permissions: data});
+    }
+  }, [data])
 
   const {
     token: { colorBgContainer, borderRadiusLG },

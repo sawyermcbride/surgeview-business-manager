@@ -5,7 +5,7 @@ import getCustomer from './api/getCustomer';
 import searchCustomers from './api/searchCustomers';
 import getOrders from './api/getOrders';
 import updateOrder from './api/updateOrder';
-
+import {hasRole} from '../controllers/localLogin'
 const router: Router = express.Router();
 const prisma = new PrismaClient();
 
@@ -40,6 +40,6 @@ router.get('/customers/:id', getCustomer as any);
 
 router.get('/orders', getOrders as any);
 
-router.put('/orders/update', updateOrder as any );
+router.put('/orders/update', hasRole(['Admin', 'manager']), updateOrder as any );
 
 export default router;

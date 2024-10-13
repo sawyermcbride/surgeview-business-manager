@@ -439,6 +439,11 @@ GET /api/orders?start=2024-10-01&end=2024-10-09
 ## Description
 This endpoint updates an existing order based on the provided `orderId`. At least one of the fields, `youtubeUrl` or `channelName`, must be provided to perform the update. The request expects a JSON body.
 
+### Authorization
+You must have one of the following authenticated roles to access this end point
+- `Admin`
+- `manager`
+
 ## Request
 
 ### Headers
