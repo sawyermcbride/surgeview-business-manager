@@ -1,12 +1,17 @@
 // App Context
 
 import React, {createContext, useState, useContext} from "react";
+import { OrdersObject } from "../types/apiResponses";
 
 interface AppState {
   page: number;
   actionSelected: number;
   selectedCustomer: number | null;
+  selectedOrder: number | null;
+  orders: OrdersObject[];
   loading: boolean;
+  requiresLogin: boolean;
+  lastActionSelected: number;
 }
 
 interface AppContextProps {
@@ -21,8 +26,12 @@ interface AppContextComponent {
 const initialState: AppState = {
   page: 1,
   actionSelected: 0, //means none
+  orders: [],
   selectedCustomer: null,
-  loading: false
+  selectedOrder: null,
+  loading: false,
+  lastActionSelected: 0,
+  requiresLogin: false
 };
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -36,6 +45,7 @@ export const AppContextProvider: React.FC<AppContextComponent> = ({ children }) 
       ...newData,
     }));
   };
+
 
   return (
     <AppContext.Provider value={{ state, updateState }}>

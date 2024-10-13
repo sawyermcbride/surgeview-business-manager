@@ -421,7 +421,7 @@ GET /api/orders
 ```
 
 ```http
-GET GET /api/orders?start=2024-10-01&end=2024-10-09
+GET /api/orders?start=2024-10-01&end=2024-10-09
 ```
 
 #### Implementation Notes 

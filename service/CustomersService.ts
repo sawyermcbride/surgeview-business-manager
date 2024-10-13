@@ -26,7 +26,8 @@ class CustomersService {
     const orders = await prisma.orders.findMany({
       where: {
         customerEmail: customer.email
-      }
+      },
+      orderBy: {createdAt: 'desc'}
     });
   
     const responseObj = {

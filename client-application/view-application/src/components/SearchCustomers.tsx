@@ -12,7 +12,7 @@ const {Search}  = Input;
 const {Text, Title} = Typography;
 
 const SearchCustomers: React.FC = function() {
-  const {updateState} = useAppContext();
+  const {updateState, state} = useAppContext();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(true);
@@ -21,9 +21,12 @@ const SearchCustomers: React.FC = function() {
 
   useEffect(() => {
     setShowError(true);    
+    console.log('SearchCustomers error value, ', error);
     if(error && error === 'Authorization_Error') {
       setShowLogin(true);
       setShowError(false);
+      console.log('Authorization Error');
+      updateState({requiresLogin: true});
     }
 
   }, [error])
@@ -34,6 +37,11 @@ const SearchCustomers: React.FC = function() {
     console.log('New loadings state ', loading);
 
   }, [loading])
+
+  useEffect(() => {
+    setShowError(state.requiresLogin);
+    setSearchTerm("");
+  }, [state.requiresLogin])
   
   const viewCustomerDetails = function(id: number) {
     updateState({actionSelected: 2, selectedCustomer: id});
@@ -47,7 +55,6 @@ const SearchCustomers: React.FC = function() {
   }
   return (
     <div>
-      <LoginBox visible={showLogin} onClose={() => {setShowLogin(false)}}/>
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
         <div style={{ position: 'absolute', flex: '0 1 auto' }}>
           <Button onClick={handleHomeClick} size="small" type="primary">

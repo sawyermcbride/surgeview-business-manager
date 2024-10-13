@@ -6,10 +6,7 @@ const ordersService = new OrdersService();
 const getOrders = async function(req: Request, res: Response) {
   
   const {start, end} = req.query;
-  
-  console.log('Start date query: ', start);
-  console.log('End date query: ', end);
-  
+    
   let startDate, endDate;
 
   if(start && end) {
@@ -19,10 +16,7 @@ const getOrders = async function(req: Request, res: Response) {
 
 
   try {
-    console.log('Start date: ', startDate);
-    console.log('End date', endDate);
-
-
+  
     const orders = await ordersService.getOrders(startDate || null, endDate || null);
     
     return res.json(orders);

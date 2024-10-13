@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppContext } from "../contexts/AppContext";
 import {Button, Typography} from 'antd';
-import { SettingOutlined, PlusCircleOutlined, EditOutlined, SearchOutlined, InfoCircleOutlined,
+import { SettingOutlined, AreaChartOutlined, EditOutlined, SearchOutlined, InfoCircleOutlined,
    FileDoneOutlined } from '@ant-design/icons';
 const {Title} = Typography;
 
@@ -60,6 +60,16 @@ const ButtonsView: React.FC =  function() {
           onClick={() => handleButtonClick('Edit_Web_Content')}
         >
           Edit Web Content
+        </Button>
+
+        <Button 
+          type="primary"
+          className="dashboard-button" 
+          size="large" 
+          icon={<AreaChartOutlined />} 
+          onClick={() => handleButtonClick('Analytics')}
+        >
+          Analytics
         </Button>
         </div>
     </div>

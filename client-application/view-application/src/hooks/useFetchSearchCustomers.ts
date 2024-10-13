@@ -31,13 +31,11 @@ const useFetchSearchCustomers = function(searchTerm: string): SearchCustomersRet
 
         const contentType = response.headers['content-type'];
 
-        console.log(response.data);
-        console.log(contentType);
-
         if(contentType.includes('application/json')) {
           console.log('JSON received');
           setCustomers(response.data);
         } else if(contentType.includes('text/html') && response.data.includes('Login')) {
+          // console.log('Authorization Error');
           setError('Authorization_Error');
         }
 

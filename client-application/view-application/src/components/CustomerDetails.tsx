@@ -9,12 +9,17 @@ import { useAppContext } from "../contexts/AppContext";
 const {Title, Text} = Typography;
 
 const CustomerDetails:React.FC = function() {
-  const AppContext = useAppContext();
-  const {details, loading, error} = useFetchCustomerDetails(AppContext.state.selectedCustomer);
+  const {state, updateState} = useAppContext();
+  const {details, loading, error} = useFetchCustomerDetails(state.selectedCustomer);
 
   const handleBackClick = function() {
-    AppContext.updateState({actionSelected: 1});
+    updateState({actionSelected: 1});
   }
+
+  const viewOrderDetails = function(id: number) {
+    updateState({actionSelected: 4, selectedOrder: id, orders: details?.orders});
+  }
+
 
   return (
     <div>
@@ -32,7 +37,8 @@ const CustomerDetails:React.FC = function() {
           <Row gutter={16} style={{display: 'flex', justifyContent: 'center'}}>
             <Col span={12}>
               {details && 
-                <Card title="Customer Information" bordered>
+                <Card title="Customer Information" bordered style={{position: 'relative'}}>
+                  <Button style={{position: 'absolute', right: 15, top: 15}} size="small">Edit</Button>
                   <Text strong>ID:</Text> <Text>{details.customer.id}</Text><br />
                   <Text strong>Name:</Text> <Text>{details.customer.name}</Text><br />
                   <Text strong>Email:</Text> <Text>{details.customer.email}</Text><br />
@@ -55,7 +61,7 @@ const CustomerDetails:React.FC = function() {
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
             {(details) && (
-              <OrdersTable orders={details.orders}/>
+              <OrdersTable orders={details.orders} viewOrderDetails={viewOrderDetails}/>
             )}
           </div>
         </div>

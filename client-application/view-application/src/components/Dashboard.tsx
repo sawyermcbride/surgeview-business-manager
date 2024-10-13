@@ -9,6 +9,8 @@ import MainContent from "./MainContent";
 const { Header, Content, Sider } = Layout;
 const {Title} = Typography;
 
+const pages = ['Home', 'Profile'];
+const actions = ['Select Action', 'Search Customers', 'View Customer Details', 'View Orders', 'Order Details']
 
 const sideMenuItems: MenuProps['items'] = [
   {
@@ -26,6 +28,7 @@ const sideMenuItems: MenuProps['items'] = [
 
 const Dashboard: React.FC = function() {
   const AppContext = useAppContext();
+  const {state} = AppContext;
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -56,7 +59,7 @@ const Dashboard: React.FC = function() {
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Breadcrumb
-            items={[{ title: 'Home' }, { title: 'List' }, { title: 'App' }]}
+            items={[{ title: pages[state.page-1] }, { title: actions[state.actionSelected] }]}
             style={{ margin: '16px 0' }}
           />
           <Content

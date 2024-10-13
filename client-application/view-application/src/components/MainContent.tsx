@@ -3,7 +3,9 @@ import { useAppContext } from "../contexts/AppContext";
 import ButtonsView from "./ButtonsView";
 import SearchCustomers from "./SearchCustomers";
 import CustomerDetails from "./CustomerDetails";
-import LoadingComponent from "./tests/LoadingComponent";
+import LoginBox from "./LoginBox";
+import ViewOrders from "./ViewOrders";
+import OrderDetails from "./OrderDetails";
 
 const MainContent: React.FC =  function() {
   const AppContext = useAppContext();
@@ -11,12 +13,17 @@ const MainContent: React.FC =  function() {
   const actionSelected = AppContext.state.actionSelected;
 
   useEffect(() => {
-    
-  }, [])
+    console.log('Required login = ', AppContext.state.requiresLogin);
+    console.log(AppContext.state);
+  }, [AppContext.state.requiresLogin])
+
+  const loginClosed = function() {
+    AppContext.updateState({requiresLogin: false});
+  }
 
   return(
     <div style={{position: 'relative', minHeight: '500px'}}>
-        
+        <LoginBox visible={AppContext.state.requiresLogin} onClose={loginClosed}/>
         {(() => {
           switch (actionSelected) {
             case 0:
@@ -26,7 +33,9 @@ const MainContent: React.FC =  function() {
             case 2:
               return <CustomerDetails/>;
             case 3:
-              return <h3>Orders View</h3>
+              return <ViewOrders/>
+            case 4: 
+              return <OrderDetails/>
             default:
               return <ButtonsView />;
           }
