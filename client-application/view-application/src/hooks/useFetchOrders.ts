@@ -31,8 +31,6 @@ const useFetchOrders = function(): FetchOrdersReturnObject {
         url = `http://localhost:3000/api/orders`;
       }
 
-      console.log('Fetching orders ', url);
-
       const response = await axios.get(url,
         {
           withCredentials: true 
@@ -45,7 +43,6 @@ const useFetchOrders = function(): FetchOrdersReturnObject {
         console.log('JSON received');
         setOrders(response.data);
       } else if(contentType.includes('text/html') && response.data.includes('Login')) {
-        // console.log('Authorization Error');
         setError('Authorization_Error');
       }
 

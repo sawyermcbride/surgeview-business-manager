@@ -431,3 +431,86 @@ GET /api/orders?start=2024-10-01&end=2024-10-09
   - Error handling is in place for invalid date formats and unexpected server errors.
 
 
+# Update Order API
+
+## Endpoint
+`PUT /api/orders/update`
+
+## Description
+This endpoint updates an existing order based on the provided `orderId`. At least one of the fields, `youtubeUrl` or `channelName`, must be provided to perform the update. The request expects a JSON body.
+
+## Request
+
+### Headers
+- `Content-Type: application/json`
+
+### Body Parameters
+| Parameter     | Type   | Required | Description                                          |
+|---------------|--------|----------|------------------------------------------------------|
+| `orderId`     | string | Yes      | The unique identifier of the order to update.        |
+| `youtubeUrl`  | string | No       | The new YouTube URL to associate with the order.     |
+| `channelName` | string | No       | The new channel name to associate with the order.    |
+
+### Example Request
+```json
+{
+  "orderId": "123456",
+  "youtubeUrl": "https://www.youtube.com/watch?v=example",
+  "channelName": "New Channel Name"
+}
+```
+
+### Responses
+
+#### Success Response
+
+**Code:**: 200 OK
+
+**Content**:
+
+```json
+{
+  "message": "1 record updated",
+  "orderId": "123456"
+}
+```
+
+#### Error Response
+
+**Code:**: 400 Bad Request
+
+**Content**:
+
+```json
+{
+  "message": "Missing orderId field"
+}
+```
+
+
+**Code:**: 400 Bad Request
+
+**Content**:
+
+```json
+{
+  "message": "Invalid parameters"
+}
+```
+
+**Code:**: 500 Internal Server Error
+
+**Content**:
+
+```json
+{
+  "message": "Error message from server"
+}
+```
+
+#### Notes
+- The orderId field is mandatory. If it is missing, a 400 Bad Request error will be returned.
+- At least one of the youtubeUrl or channelName fields must be provided. If both are missing, a 400 Bad Request error will be returned.
+- The orderId is unique; hence, only one record will be updated per request.
+- In the event of a successful update, the response will indicate how many records were updated (should be 1) and return the orderId.
+- If an error occurs during the update process, a 500 Internal Server Error response will be returned with the error message.

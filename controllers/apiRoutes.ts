@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import getCustomer from './api/getCustomer';
 import searchCustomers from './api/searchCustomers';
 import getOrders from './api/getOrders';
-
+import updateOrder from './api/updateOrder';
 
 const router: Router = express.Router();
 const prisma = new PrismaClient();
@@ -39,5 +39,7 @@ router.get('/customers/:id', getCustomer as any);
  */
 
 router.get('/orders', getOrders as any);
+
+router.put('/orders/update', updateOrder as any );
 
 export default router;

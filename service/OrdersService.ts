@@ -2,6 +2,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+interface OrderObject {
+  id: number;
+  youtubeUrl: string;
+  channelName: string;
+  customerEmail: string;
+  createdAt: string;
+}
+
 class OrdersService {
   /**
    * Creates order
@@ -67,9 +75,41 @@ class OrdersService {
       take: query.createdAt ? undefined: 100
     })
     
-    
-
     return orders;
+  }
+
+  /**
+   * Updates order with the new information, either youtubeUrl or channelName is required
+   * @param orderId Id you want to update
+   * @param youtubeUrl (optional, one required)
+   * @param channelName (optional, one required)
+   * @throws Error('InvalidParameters') both parameters
+   * @throws Error('NoRecord') if no record was updated
+   * @returns the number of records updated, will only be one.
+   */
+  public async updateOrder(orderId: number, youtubeUrl?: string, channelName?: string) {
+
+    let updateData: Partial<OrderObject> = {};
+
+    if(!youtubeUrl && !channelName) {
+      throw new Error("InvalidParameters")
+    }
+
+    if(youtubeUrl) {
+      updateData.youtubeUrl = youtubeUrl;
+    }
+    if(channelName) {
+      updateData.channelName = channelName;
+    }
+
+    const updatedOrder = await prisma.orders.updateMany({
+      where: {
+        id: orderId
+      },
+      data: updateData
+    });
+
+    return updatedOrder.count;
 
   }
 }

@@ -1,6 +1,9 @@
 import {jest, test, describe, beforeAll, expect, beforeEach} from '@jest/globals';
 
+
+
 import { PrismaClient } from '@prisma/client';
+
 import OrdersService from '../../service/OrdersService';
 
 
@@ -58,4 +61,28 @@ describe('Orders service tests', () => {
     })
 
   })
+
+  test('updateOrders throws error for missing parameters', async() => {
+    await expect(ordersService.updateOrder(2)).rejects.toThrow('InvalidParameters');
+
+  });
+
+  test('updateOrders calls expected function for update', async() => {
+
+    prismaMock.orders.updateMany.mockResolvedValueOnce({count: 1});
+
+
+    const result = await ordersService.updateOrder(2, 'youtube.com/newlink');
+
+    expect(result).toBe(1);
+
+    expect(prismaMock.orders.updateMany).toHaveBeenNthCalledWith(1, {
+      where: {
+        id: 2
+      },
+      data: {youtubeUrl: 'youtube.com/newlink'}
+    })
+
+  })
+
 })

@@ -44,6 +44,7 @@ const SearchCustomers: React.FC = function() {
   }, [state.requiresLogin])
   
   const viewCustomerDetails = function(id: number) {
+    
     updateState({actionSelected: 2, selectedCustomer: id});
   }
 
