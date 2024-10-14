@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 
-import {Form, Input, Button, Typography} from "antd";
+import {Form, Input, Button, Typography, Tag} from "antd";
 import { useAppContext } from "../contexts/AppContext";
 import useFetchUpdateOrders from "../hooks/useFetchUpdateOrders";
 
@@ -53,10 +53,10 @@ const OrderDetails: React.FC = function() {
   },[state.actionSelected, state.orders, state.selectedOrder]);
     
   useEffect(() => {
-    if(error && error === 'Authorization_Error') {
+    if(error && error === 'Authorization_Error' && !state.isLoggedIn) {
       updateState({requiresLogin: true});
     }
-  }, [error])
+  }, [error, updateState, state.isLoggedIn]);
 
   useEffect(() => {
 
@@ -107,8 +107,13 @@ const OrderDetails: React.FC = function() {
           {...formItemLayout}      
           layout='horizontal'
         >
-          <Form.Item label="id" name="id">
-            <Input disabled/>
+          <Form.Item label={
+            <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+              Id
+              <Tag color="default">Read Only</Tag>
+            </div>
+          } name="id">
+            <Input readOnly/>
           </Form.Item>
           <Form.Item label="YouTube URL" name="youtubeUrl">
             <Input/>
@@ -116,11 +121,21 @@ const OrderDetails: React.FC = function() {
           <Form.Item label="Channel Name" name="channelName">
             <Input/>
           </Form.Item>
-          <Form.Item label="Customer Email" name="customerEmail">
-            <Input disabled />
+          <Form.Item label={
+            <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+              Customer Email
+              <Tag color="default">Read Only</Tag>
+            </div>
+          } name="customerEmail">
+            <Input readOnly />
           </Form.Item>
-          <Form.Item  label="Created At" name="createdAt">
-            <Input disabled />
+          <Form.Item  label={
+              <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                Created At
+                <Tag color="default">Read Only</Tag>
+              </div>
+          } name="createdAt">
+            <Input readOnly />
           </Form.Item>
           <Form.Item>
             <Button style={{position: 'absolute', top: 0, right: 0}} type="default" htmlType="submit">

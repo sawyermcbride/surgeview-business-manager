@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express';
-import viewSettings from '../config/viewSettings';
+import viewSettings from '../config/ViewSettings';
 import { PrismaClient } from '@prisma/client';
 import getCustomer from './api/getCustomer';
 import searchCustomers from './api/searchCustomers';

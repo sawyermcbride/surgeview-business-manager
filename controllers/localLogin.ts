@@ -10,7 +10,7 @@ export const localLogin = async function(username: string, password: string, don
     
   try {
     const user = await employeesService.login(username, password);  
-    console.log('User', user)
+    
     return done(null, user);
 
   } catch(err: any) {
@@ -39,7 +39,6 @@ export const userFromId = async function(id, done) {
 
 export const hasRole = function(roles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
-    console.log('Route= ', req.url);
     console.log('Checking user role = ', req.session);
     console.log('isAuthenticated = ', req.isAuthenticated());
 

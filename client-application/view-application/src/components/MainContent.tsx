@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import { useAppContext } from "../contexts/AppContext";
 import ButtonsView from "./ButtonsView";
 import SearchCustomers from "./SearchCustomers";
@@ -12,13 +12,9 @@ const MainContent: React.FC =  function() {
 
   const actionSelected = AppContext.state.actionSelected;
 
-  useEffect(() => {
-    console.log('Required login = ', AppContext.state.requiresLogin);
-    console.log(AppContext.state);
-  }, [AppContext.state.requiresLogin])
 
-  const loginClosed = function() {
-    AppContext.updateState({requiresLogin: false});
+  const loginClosed = function(loggedIn: boolean) {
+    AppContext.updateState({requiresLogin: false, isLoggedIn: loggedIn});
   }
 
   return(

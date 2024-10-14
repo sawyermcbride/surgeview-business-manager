@@ -12,13 +12,15 @@ const clicks: {[key: string]: number} = {
   'Search_Employees': 4,
 }
 const ButtonsView: React.FC =  function() {
-  const AppContext = useAppContext();
+  const {updateState, state} = useAppContext();
 
   const handleButtonClick = function(clickType: string) {
     const actionSelected = clicks[clickType];
 
-    AppContext.updateState({actionSelected})
+    updateState({actionSelected})
   }
+
+  const permissions = state.permissions;
 
   return(
     <div>
@@ -45,7 +47,8 @@ const ButtonsView: React.FC =  function() {
         </Button>
         <Button 
           type="primary"
-          className="dashboard-button" 
+          className="dashboard-button"
+          style={{display: permissions?.viewEmployees ? 'inline-block': 'none'}}
           size="large" 
           icon={<SearchOutlined />} 
           onClick={() => handleButtonClick('Search_Employees')}

@@ -1,5 +1,15 @@
 
 
+html, body {
+  font-family: 'Roboto', sans-serif; /* Replace with your desired font */
+}
+
+/* Ensure all Ant Design components use the same font */
+.ant-typography, .ant-btn, .ant-input, .ant-form, .ant-menu {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+
 .dashboard-button {
   margin-top: 15px;
 }

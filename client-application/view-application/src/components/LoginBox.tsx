@@ -6,7 +6,7 @@ const {Text} = Typography;
 
 interface LoginBoxProps {
   visible: boolean;
-  onClose: () => void;
+  onClose: (loggedIn: boolean) => void;
 }
 const LoginBox: React.FC<LoginBoxProps> = function({visible, onClose}) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const LoginBox: React.FC<LoginBoxProps> = function({visible, onClose}) {
         withCredentials: true,
       });
 
-      onClose();
+      onClose(true);
 
     } catch(err) {
       setLoading(false);
@@ -34,7 +34,7 @@ const LoginBox: React.FC<LoginBoxProps> = function({visible, onClose}) {
     <Modal
       title="Login"
       open={visible}
-      onCancel={onClose}
+      onCancel={() => onClose(false)}
       footer={null}
     >
       <Text>Login with your details from SurgeView Marketing to continue</Text>

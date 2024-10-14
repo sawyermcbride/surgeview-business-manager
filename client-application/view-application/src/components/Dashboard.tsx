@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { HomeOutlined, ProfileOutlined} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd';
+import { Breadcrumb, Button, Layout, Menu, theme, Typography } from 'antd';
 import logo from '../assets/surge_view_new_cropped_transparent.png';
 import { useAppContext } from "../contexts/AppContext";
 import MainContent from "./MainContent";
+import Logout from "./Common/Logout";
 import useFetchRolePermissions from "../hooks/useFetchRolePermission";
 
 
@@ -31,20 +32,25 @@ const sideMenuItems: MenuProps['items'] = [
 const Dashboard: React.FC = function() {
   const AppContext = useAppContext();
   const {data, error} = useFetchRolePermissions();
+  
 
-  const {state} = AppContext;
-
+  const {state, updateState} = AppContext;
+  
   useEffect(() => {
-    if(error === 'Authorization_Error') {
-      AppContext.updateState({requiresLogin: true})
+
+    if(error && error === 'Authorization_Error' && !state.isLoggedIn) {
+      updateState({requiresLogin: true})
     }
-  }, [error, AppContext]);
+  }, [error, updateState, state.isLoggedIn]);
+
 
   useEffect(() => {
     if(data) {
-      AppContext.updateState({permissions: data});
-    }
-  }, [data])
+      console.log(data);
+      updateState({permissions: data});
+    } 
+
+  }, [data, updateState])
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -56,11 +62,12 @@ const Dashboard: React.FC = function() {
 
   return (
     <Layout style={{height: '100%'}}>
-      <Header style={{ background: '#bdc3c7', display: 'flex', alignItems: 'center', padding: '0 20px' }}>
+      <Header style={{ position: 'relative', background: '#bdc3c7', display: 'flex', alignItems: 'center', padding: '0 20px' }}>
         <img src={logo} data-testid='main-logo' style={{ height: '45px', marginRight: '60px', marginLeft: '25px' }} />
         <Title level={2} style={{color: '#ecf0f1', margin: 0}}> {/*add marginLeft, flex: 1, textAlign: 'center to move towards center*/ }
           Business Tools
         </Title>
+        <Logout/>
       </Header>
       <Layout>
         <Sider width={200} style={{ background: colorBgContainer }}>

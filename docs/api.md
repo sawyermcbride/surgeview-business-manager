@@ -148,6 +148,34 @@ Content-Type: text/html
 <!-- Rendered HTML for business_dashboard -->
 ```
 
+### POST /business-manager/logout
+
+#### Description:
+
+Removes the current session.
+
+**Request**
+- **URL**: /business-manager/logout
+- **Method**: POST
+
+#### Example Request
+
+```http
+POST /business-manager/dashboard HTTP/1.1
+```
+
+#### Example Response
+
+**Response Code**: 200
+**Content-Type**: application/json
+**Body**: 
+
+```json
+{ "message" : "Logged out"}
+```
+
+
+
 #### Notes:
 - Ensure users are authenticated before accessing the /business-manager/dashboard route.
 - The login route supports error handling through the query parameter, allowing for user feedback on login issues.

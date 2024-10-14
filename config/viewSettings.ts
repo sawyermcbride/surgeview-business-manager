@@ -1,4 +1,5 @@
 type Role = 'Admin' | 'manager' | 'associate';
+
 interface Settings {
   searchCustomers: boolean;
   searchOrders: boolean;

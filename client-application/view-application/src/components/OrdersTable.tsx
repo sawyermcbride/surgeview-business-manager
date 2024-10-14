@@ -21,7 +21,8 @@ const OrdersTable: React.FC<OrdersTableProps> = function({orders, viewOrderDetai
       title: 'Order ID',
       dataIndex: 'id',
       key: 'id',
-      className: 'row-nowrap'
+      className: 'row-nowrap',
+      width: 100
     },
     {
       title: 'YouTube URL',

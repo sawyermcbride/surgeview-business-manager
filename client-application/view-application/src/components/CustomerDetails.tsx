@@ -29,8 +29,8 @@ const CustomerDetails:React.FC = function() {
             Return to Search
           </Button>
         </div>
-          <div style={{ flex: '1', textAlign: 'center' }}>
-            <Title level={3}> Customer Details </Title>
+          <div style={{ flex: '1', textAlign: 'center'}}>
+            <Title hidden={!state.permissions?.editCustomers} level={3}> Customer Details </Title>
           </div>
       </div>
         <div style={{padding: '24px'}}>
