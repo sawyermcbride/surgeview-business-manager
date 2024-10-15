@@ -25,10 +25,10 @@ const ViewOrders: React.FC = function() {
   }
   
     useEffect(() => {
-      if(error === 'Authorization_Error') {
+      if(error && error === 'Authorization_Error' && !state.isLoggedIn) {
         updateState({requiresLogin: true});
       }
-    }, [error, updateState])
+    }, [error, updateState, state.isLoggedIn])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
@@ -59,6 +59,7 @@ const ViewOrders: React.FC = function() {
   }
 
   useEffect(() => {
+    console.log('Loading, ', loading);
     updateState({orders});
   }, [orders, updateState])
 
@@ -81,7 +82,7 @@ const ViewOrders: React.FC = function() {
           <Text> View Recent Orders or Search By Date <strong>(Optional)</strong> </Text>
 
         </div>
-        {loading && <Text>Loading...</Text>}
+
       </div>
       <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'center'}}>
         <Form layout="vertical" onFinish={onFinish}>
@@ -125,6 +126,9 @@ const ViewOrders: React.FC = function() {
                   <Button type="primary" htmlType="submit">
                     Search Orders
                   </Button>
+                  <div style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
+                    {loading && <Text>Loading...</Text>}
+                  </div>
                 </Form.Item>
               </Col>
             </Row>

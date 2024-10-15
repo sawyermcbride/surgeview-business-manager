@@ -48,21 +48,18 @@ const corsOptions = {
 app.use(morgan('dev'));
 
 
-// Use the CORS middleware
 app.use(cors(corsOptions));
 
 
-// Initialize Passport
+//Passport setup
 app.use(passport.initialize());
-app.use(passport.session()); // This is required for persistent login sessions
+app.use(passport.session()); 
 
-// Set the view engine
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
-
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -79,8 +76,8 @@ passport.deserializeUser(userFromId);
 
 
 
+//Home Template 
 
-// Define a route
 app.get('/', async (req, res) => {
     return res.render("index", { name: "User" });
 });
@@ -93,6 +90,9 @@ app.post('/employee/login', passport.authenticate('employee-login', {
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+/**
+ * Templates for signup flow and admin signin
+ */
 app.use('/signup-submit', signupRoute);
 app.use('/payment', paymentRoute);
 app.use('/verification', verificationRoute);
@@ -144,9 +144,10 @@ app.get('/:page', (req: Request, res: Response) => {
 
 });
 
-// Start the server
-app.listen(PORT,'0.0.0.0', () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+if(process.env.NODE_ENV !== 'test') {
+  app.listen(PORT,'0.0.0.0', () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
 
 export default app;

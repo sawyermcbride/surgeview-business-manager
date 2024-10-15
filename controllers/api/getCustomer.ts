@@ -8,15 +8,17 @@ const customersService = new CustomersService();
 const getCustomer = async function(req: Request, res: Response) {
   const customerId = req.params.id;
 
-  if(!customerId || isNaN(customerId)) {
+  if(!customerId || Number.isNaN(Number(customerId))) {
     return res.status(400).json({message: 'Customer id not included in parameters' });
   }
 
   try {
-    const data = await customersService.getCustomerData(parseInt(customerId));
+    console.log('customerId = ', Number.parseInt(customerId));
+    const data = await customersService.getCustomerData(Number.parseInt(customerId));
 
     return res.json(data);
-  } catch(err) {
+  } catch(err: any) {
+  
     if(err.message === 'NoCustomer') {
       return res.status(400).json({message: 'Customer with the provided id not found'});
     } else {

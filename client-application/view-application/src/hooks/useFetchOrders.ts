@@ -1,8 +1,8 @@
 
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import { OrdersObject } from "../types/apiResponses";
 import axios from "axios";
-import { get } from "http";
+
 
 //POST /api/customers/search/
 interface FetchOrdersReturnObject {
@@ -14,7 +14,7 @@ interface FetchOrdersReturnObject {
 
 const useFetchOrders = function(): FetchOrdersReturnObject {
   const [orders, setOrders] = useState<OrdersObject[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchOrders = async function(startDate?: string, endDate?: string) {
@@ -54,6 +54,7 @@ const useFetchOrders = function(): FetchOrdersReturnObject {
       } else {
         setError('Unknown error occured');
       }
+      setLoading(false);
     }
 
   }

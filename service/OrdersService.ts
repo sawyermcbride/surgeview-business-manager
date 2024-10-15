@@ -110,8 +110,8 @@ class OrdersService {
     });
 
     return updatedOrder.count;
-
   }
+
 }
 
 export default OrdersService;

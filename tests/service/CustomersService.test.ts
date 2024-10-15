@@ -53,9 +53,10 @@ describe('Customers Service tests', () => {
     expect(result).toHaveProperty('orders');
 
     expect(prismaMock.customers.findUnique).toHaveBeenCalledWith({where:{ id: 2}});
-    expect(prismaMock.customers.findMany).toHaveBeenCalledWith({where:{ customerEmail: 'test@surgeviewmarketing.com'}});
+    expect(prismaMock.customers.findMany).toHaveBeenCalledWith({where:{ customerEmail: 'test@surgeviewmarketing.com'},
+    orderBy: {createdAt: 'desc'}});
 
-  })
+  });
 
   test('should return a list of customers matching the search term', async () => {
     const mockCustomers = [

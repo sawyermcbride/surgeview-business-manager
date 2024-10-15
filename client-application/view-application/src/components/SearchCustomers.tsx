@@ -3,10 +3,7 @@ import {Button, Typography, Input} from "antd";
 import { useAppContext } from "../contexts/AppContext";
 import CustomersTable from "./CustomersTable";
 
-import axios from "axios";
-
 import useFetchSearchCustomers from "../hooks/useFetchSearchCustomers";
-import LoginBox from "./LoginBox";
 
 const {Search}  = Input;
 const {Text, Title} = Typography;
@@ -27,7 +24,7 @@ const SearchCustomers: React.FC = function() {
       updateState({requiresLogin: true});
     }
 
-  }, [error])
+  }, [error, updateState])
 
   useEffect( () => {
     

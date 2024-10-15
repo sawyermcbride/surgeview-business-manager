@@ -2,8 +2,13 @@
   "name": "surge-view-site-v4",
   "version": "1.0.0",
   "main": "index.js",
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/client-application/"
+    ]
+  },
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsx index.ts"

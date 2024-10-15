@@ -3,7 +3,8 @@
     "node_modules",
     "build",  
     "dist",
-    "client-application"
+    "client-application",
+    "view-application"
   ],
 
   "compilerOptions": {

@@ -31,7 +31,7 @@ const sideMenuItems: MenuProps['items'] = [
 
 const Dashboard: React.FC = function() {
   const AppContext = useAppContext();
-  const {data, error} = useFetchRolePermissions();
+  const {data, error, fetchPermissions} = useFetchRolePermissions();
   
 
   const {state, updateState} = AppContext;
@@ -43,6 +43,9 @@ const Dashboard: React.FC = function() {
     }
   }, [error, updateState, state.isLoggedIn]);
 
+  // useEffect(() => {
+  //   fetchPermissions();
+  // }, [state.isLoggedIn, fetchPermissions])
 
   useEffect(() => {
     if(data) {
@@ -51,6 +54,7 @@ const Dashboard: React.FC = function() {
     } 
 
   }, [data, updateState])
+
 
   const {
     token: { colorBgContainer, borderRadiusLG },

@@ -8,18 +8,21 @@ import ViewOrders from "./ViewOrders";
 import OrderDetails from "./OrderDetails";
 
 const MainContent: React.FC =  function() {
-  const AppContext = useAppContext();
+  const {updateState, state} = useAppContext();
 
-  const actionSelected = AppContext.state.actionSelected;
+
+  const actionSelected = state.actionSelected;
 
 
   const loginClosed = function(loggedIn: boolean) {
-    AppContext.updateState({requiresLogin: false, isLoggedIn: loggedIn});
+    updateState({requiresLogin: false, isLoggedIn: loggedIn});
   }
 
   return(
     <div style={{position: 'relative', minHeight: '500px'}}>
-        <LoginBox visible={AppContext.state.requiresLogin} onClose={loginClosed}/>
+      {state.requiresLogin && 
+        <LoginBox visible={state.requiresLogin} onClose={loginClosed}/>
+      }
         {(() => {
           switch (actionSelected) {
             case 0:
